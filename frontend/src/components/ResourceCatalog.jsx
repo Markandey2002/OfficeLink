@@ -54,6 +54,8 @@ export default function ResourceCatalog({ selectedId, onSelect }) {
       {error && <p className="error-banner">{error}</p>}
       {loading ? (
         <p className="muted">Loading resources…</p>
+      ) : resources.length === 0 ? (
+        <p className="muted">No resources available{type ? ` for type "${type.replace('_', ' ')}"` : ''}.</p>
       ) : (
         <ul className="resource-list">
           {resources.map((r) => (

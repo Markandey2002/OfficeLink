@@ -1,6 +1,7 @@
 package com.officlink.officelink.config;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.oauth2.jwt.JwtClaimNames;
+import org.springframework.security.oauth2.jwt.JwtClaimValidator;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.jwt.JwtDecoders;
 import org.springframework.security.oauth2.jwt.JwtValidators;
@@ -57,8 +60,13 @@ public class SecurityConfig {
 	JwtDecoder localJwtDecoder(JwtService jwtService) {
 		SecretKey key = jwtService.getSecretKey();
 		NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(key).build();
+		// Validate issuer + expiry (via createDefaultWithIssuer) AND the audience claim.
+		JwtClaimValidator<Collection<String>> audienceValidator =
+				new JwtClaimValidator<>(JwtClaimNames.AUD,
+						aud -> aud != null && aud.contains(JwtService.AUDIENCE));
 		OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(
-				JwtValidators.createDefaultWithIssuer(jwtService.getIssuer()));
+				JwtValidators.createDefaultWithIssuer(jwtService.getIssuer()),
+				audienceValidator);
 		decoder.setJwtValidator(validator);
 		return decoder;
 	}

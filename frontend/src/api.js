@@ -100,3 +100,16 @@ export async function updateBooking(token, id, payload) {
   });
   return parseResponse(res);
 }
+
+export async function checkConflict(token, { resourceId, startUtc, endUtc, excludeBookingId }) {
+  const params = new URLSearchParams({
+    resourceId,
+    startUtc,
+    endUtc,
+    ...(excludeBookingId != null ? { excludeBookingId } : {}),
+  });
+  const res = await fetch(`${API_BASE}/api/bookings/conflicts?${params}`, {
+    headers: authHeaders(token),
+  });
+  return parseResponse(res);
+}

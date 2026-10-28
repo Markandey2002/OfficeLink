@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { createBooking } from '../api';
+import { checkConflict, createBooking } from '../api';
 import { useAuth } from '../auth/AuthContext';
 import { todayDateInputValue, toUtcIso } from '../utils/time';
 
@@ -35,6 +35,11 @@ export default function BookingForm({ resource, onBooked }) {
       const endUtc = toUtcIso(date, endTime);
       if (new Date(endUtc) <= new Date(startUtc)) {
         throw new Error('End time must be after start time');
+      }
+      // Pre-flight availability check before committing the booking.
+      const probe = await checkConflict(token, { resourceId: resource.id, startUtc, endUtc });
+      if (probe.conflict) {
+        throw new Error(`${resource.name} is already booked for that time window. Please choose a different slot.`);
       }
       const booking = await createBooking(token, {
         resourceId: resource.id,
