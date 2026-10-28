@@ -1,0 +1,44 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: office-link
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/office_link}
+    username: ${DB_USERNAME:postgres}
+    password: ${DB_PASSWORD:5189}
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+    properties:
+      hibernate:
+        jdbc:
+          time_zone: UTC
+        format_sql: true
+  jackson:
+    time-zone: UTC
+    serialization:
+      write-dates-as-timestamps: false
+
+app:
+  jwt:
+    # Local OIDC-shaped HMAC issuer (iss=office-link-local). Not a production secret.
+    secret: ${JWT_SECRET:OfficeLinkDevSecretKeyMustBeAtLeast32BytesLong!!}
+    issuer: ${JWT_ISSUER:office-link-local}
+    expiration-minutes: ${JWT_EXPIRATION_MINUTES:480}
+  oidc:
+    # Set APP / env OIDC_ENABLED=true after starting Keycloak (docker compose).
+    enabled: ${OIDC_ENABLED:false}
+    issuer-uri: ${OIDC_ISSUER_URI:http://localhost:8081/realms/office-link}
+    audience: ${OIDC_AUDIENCE:office-link-api}
+    client-id: ${OIDC_CLIENT_ID:office-link-frontend}
+    redirect-uri: ${OIDC_REDIRECT_URI:http://localhost:5173}
+  cors:
+    allowed-origins: ${CORS_ORIGINS:http://localhost:5173,http://localhost:3000}
+
+logging:
+  level:
+    org.hibernate.SQL: warn
+    org.springframework.security: info

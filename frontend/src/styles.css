@@ -1,0 +1,359 @@
+:root {
+  --ink: #1a2421;
+  --muted: #5c6b66;
+  --paper: #f3f6f2;
+  --panel: rgba(255, 255, 255, 0.82);
+  --line: rgba(26, 36, 33, 0.12);
+  --accent: #0f6b5c;
+  --accent-deep: #0a4a40;
+  --danger: #9b2c2c;
+  --success: #1f6f4a;
+  --shadow: 0 18px 50px rgba(20, 40, 34, 0.12);
+  --radius: 18px;
+  --font-display: "Fraunces", Georgia, serif;
+  --font-body: "DM Sans", "Segoe UI", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  color: var(--ink);
+  font-family: var(--font-body);
+  background:
+    radial-gradient(circle at 12% 18%, rgba(15, 107, 92, 0.18), transparent 42%),
+    radial-gradient(circle at 88% 0%, rgba(196, 145, 58, 0.16), transparent 36%),
+    linear-gradient(160deg, #e8efe9 0%, var(--paper) 45%, #dde8e2 100%);
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+.brand {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  letter-spacing: -0.02em;
+  color: var(--accent-deep);
+}
+
+.muted {
+  color: var(--muted);
+  margin: 0.25rem 0 0;
+}
+
+.login-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1.1fr 0.9fr;
+}
+
+.login-panel {
+  padding: clamp(2rem, 5vw, 4.5rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1rem;
+  animation: rise 0.6s ease both;
+}
+
+.login-panel h1 {
+  margin: 0;
+  max-width: 16ch;
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+}
+
+.lede {
+  max-width: 42ch;
+  color: var(--muted);
+  margin: 0;
+}
+
+.login-form,
+.booking-form {
+  display: grid;
+  gap: 0.9rem;
+  margin-top: 0.5rem;
+  max-width: 26rem;
+}
+
+label {
+  display: grid;
+  gap: 0.35rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+input,
+select {
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 0.7rem 0.85rem;
+  background: rgba(255, 255, 255, 0.9);
+}
+
+button {
+  border: none;
+  border-radius: 12px;
+  padding: 0.75rem 1.1rem;
+  background: var(--accent);
+  color: white;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.18s ease, background 0.18s ease;
+}
+
+button:hover:not(:disabled) {
+  background: var(--accent-deep);
+  transform: translateY(-1px);
+}
+
+button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+button.ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--line);
+}
+
+button.danger {
+  background: transparent;
+  color: var(--danger);
+  border: 1px solid rgba(155, 44, 44, 0.35);
+}
+
+.login-visual {
+  background:
+    linear-gradient(145deg, rgba(15, 107, 92, 0.55), rgba(10, 74, 64, 0.35)),
+    url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1400&q=80")
+      center / cover;
+  animation: fade 1s ease both;
+}
+
+.auth-tabs {
+  display: inline-flex;
+  gap: 0.35rem;
+  padding: 0.25rem;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--line);
+  width: fit-content;
+}
+
+.auth-tabs .tab {
+  background: transparent;
+  color: var(--muted);
+  padding: 0.45rem 0.9rem;
+  box-shadow: none;
+}
+
+.auth-tabs .tab.active {
+  background: var(--accent);
+  color: white;
+}
+
+.role-select {
+  min-width: 11rem;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+.hint code {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+}
+
+.app-shell {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 1.5rem clamp(1rem, 3vw, 2rem) 3rem;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  animation: rise 0.45s ease both;
+}
+
+.workspace {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.workspace > :nth-child(3) {
+  grid-column: 1 / -1;
+}
+
+.panel {
+  background: var(--panel);
+  backdrop-filter: blur(10px);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.1rem 1.2rem 1.25rem;
+  animation: rise 0.55s ease both;
+}
+
+.panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.panel-header h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+}
+
+.panel-header p {
+  margin: 0.3rem 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+}
+
+.resource-list,
+.booking-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.resource-item {
+  width: 100%;
+  text-align: left;
+  background: rgba(255, 255, 255, 0.55);
+  color: var(--ink);
+  border: 1px solid transparent;
+  display: grid;
+  gap: 0.2rem;
+}
+
+.resource-item.active {
+  border-color: var(--accent);
+  background: rgba(15, 107, 92, 0.08);
+}
+
+.resource-name {
+  font-weight: 600;
+}
+
+.resource-meta {
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-transform: capitalize;
+}
+
+.time-row,
+.edit-row,
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  align-items: end;
+}
+
+.booking-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  align-items: flex-start;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.booking-item:last-child {
+  border-bottom: none;
+}
+
+.error-banner,
+.success-banner {
+  margin: 0;
+  padding: 0.65rem 0.8rem;
+  border-radius: 10px;
+  font-size: 0.92rem;
+}
+
+.error-banner {
+  background: rgba(155, 44, 44, 0.1);
+  color: var(--danger);
+}
+
+.success-banner {
+  background: rgba(31, 111, 74, 0.12);
+  color: var(--success);
+}
+
+.admin-note {
+  margin-top: 1rem;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 900px) {
+  .login-shell {
+    grid-template-columns: 1fr;
+  }
+
+  .login-visual {
+    min-height: 220px;
+    order: -1;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-item {
+    flex-direction: column;
+  }
+}
