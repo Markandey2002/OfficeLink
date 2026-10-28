@@ -22,6 +22,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
+import org.springframework.security.oauth2.jose.jws.MacAlgorithm;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimNames;
 import org.springframework.security.oauth2.jwt.JwtClaimValidator;
@@ -57,9 +58,11 @@ public class SecurityConfig {
 	}
 
 	@Bean
-	JwtDecoder localJwtDecoder(JwtService jwtService) {
+	public JwtDecoder localJwtDecoder(JwtService jwtService) {
 		SecretKey key = jwtService.getSecretKey();
-		NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(key).build();
+		NimbusJwtDecoder decoder = NimbusJwtDecoder.withSecretKey(key)
+				.macAlgorithm(MacAlgorithm.HS256)
+				.build();
 		// Validate issuer + expiry (via createDefaultWithIssuer) AND the audience claim.
 		JwtClaimValidator<Collection<String>> audienceValidator =
 				new JwtClaimValidator<>(JwtClaimNames.AUD,

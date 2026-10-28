@@ -27,7 +27,11 @@ public class JwtService {
 
 	public JwtService(JwtProperties properties) {
 		this.properties = properties;
-		this.key = Keys.hmacShaKeyFor(properties.secret().getBytes(StandardCharsets.UTF_8));
+		byte[] secretBytes = properties.secret().getBytes(StandardCharsets.UTF_8);
+		if (secretBytes.length < 32) {
+			throw new IllegalArgumentException("JWT secret must be at least 32 bytes (256 bits) for HS256");
+		}
+		this.key = Keys.hmacShaKeyFor(secretBytes);
 	}
 
 	public SecretKey getSecretKey() {
@@ -55,7 +59,7 @@ public class JwtService {
 				.claim("realm_access", Map.of("roles", List.of(role)))
 				.issuedAt(Date.from(now))
 				.expiration(Date.from(expiry))
-				.signWith(key)
+				.signWith(key, Jwts.SIG.HS256)
 				.compact();
 	}
 }
