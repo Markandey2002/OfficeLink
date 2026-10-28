@@ -33,9 +33,10 @@ public class UserProvisioningService {
 				jwt.getClaimAsString("preferred_username"),
 				email);
 		String sub = jwt.getSubject();
+		String issuer = jwt.getClaimAsString("iss");
 
 		// Local tokens use numeric subject = app user id
-		if (jwt.getIssuer() != null && jwt.getIssuer().toString().contains("office-link-local")) {
+		if (issuer != null && issuer.contains("office-link-local")) {
 			Long userId = Long.valueOf(sub);
 			AppUser user = userRepository.findById(userId)
 					.orElseThrow(() -> new ApiException(HttpStatus.UNAUTHORIZED, "User not found for token"));
